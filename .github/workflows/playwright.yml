@@ -1,27 +1,75 @@
 name: Playwright Tests
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+    workflow_dispatch:
+        inputs:
+            browser:
+                description: Browser to run the tests on
+                type: choice
+                options:
+                    - 'chromium'
+                    - 'firefox'
+                    - 'webkit'
+                    - 'all-browsers'
+                default: 'chromium'
+            os:
+                description: OS to run the tests on
+                type: choice
+                options:
+                    - 'ubuntu-latest'
+                    - 'macos-latest'
+                default: 'ubuntu-latest'
+            additional_pw_args:
+                default: ''
+                type: string
+                description: Additional arguments to pass to Playwright
 jobs:
-  test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+    test:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: '.nvmrc'
+            - name: Create .env file
+              run: |
+                  touch .env
+                  echo BASE_URL=https://www.bamfunds.com/ >> .env
+                  echo API_URL=https://www.bamfunds.com/api >> .env
+            - id: cache
+              uses: actions/cache@v4
+              with:
+                  path: ./node_modules
+                  key: modules-${{ hashFiles('package-lock.json') }}
+            - if: steps.cache.outputs.cache-hit != 'true'
+              run: npm ci
+            - name: Get installed Playwright version
+              id: playwright-version
+              run: echo "PLAYWRIGHT_VERSION=$(
+                  npm ls @playwright/test --json | jq -r '.dependencies."@playwright/test".version')" >> $GITHUB_ENV
+            - name: Installed Playwright version
+              run: |
+                  echo "Playwright's Version: ${{ env.PLAYWRIGHT_VERSION }}"
+            - name: Cache playwright binaries
+              uses: actions/cache@v4
+              id: playwright-cache
+              with:
+                  path: ~/.cache/ms-playwright
+                  key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps
+              if: steps.playwright-cache.outputs.cache-hit != 'true'
+            - name: Set current date as env variable
+              run: echo "NOW=$(date -u +'%Y-%m-%dT%H%M%S')" >> $GITHUB_ENV
+            - name: Run Playwright tests
+              if: inputs.browser == 'all browsers'
+              run: npx playwright test
+            - name: Run Playwright tests
+              if: inputs.browser != 'all browsers'
+              run: npx playwright test --project=${{ inputs.browser }} ${{ inputs.additional_pw_args }}
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report-${{ inputs.browser }}_${{ env.NOW }}
+                  path: playwright-report/
+                  retention-days: 30

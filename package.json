@@ -16,7 +16,17 @@
   },
   "homepage": "https://github.com/smadalins/bam#readme",
   "devDependencies": {
+    "@eslint/compat": "^1.2.8",
     "@playwright/test": "^1.51.1",
-    "@types/node": "^22.14.0"
+    "@types/node": "^22.14.0",
+    "dotenv": "^16.4.7",
+    "eslint": "^9.23.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-playwright": "^2.2.0",
+    "eslint-plugin-prettier": "^5.2.6",
+    "joi": "^17.13.3",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.29.0"
   }
 }
