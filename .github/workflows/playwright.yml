@@ -72,11 +72,11 @@ jobs:
               run: echo "NOW=$(date -u +'%Y-%m-%dT%H%M%S')" >> $GITHUB_ENV
 
             - name: Run Playwright tests
-              if: inputs.browser == 'all browsers'
-              run: npx playwright test
+              if: inputs.browser == 'all-browsers'
+              run: npx playwright test ${{ inputs.additional_pw_args }}
 
             - name: Run Playwright tests
-              if: inputs.browser != 'all browsers'
+              if: inputs.browser != 'all-browsers'
               run: npx playwright test --project=${{ inputs.browser }} ${{ inputs.additional_pw_args }}
 
             - uses: actions/upload-artifact@v4
