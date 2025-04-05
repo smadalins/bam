@@ -22,6 +22,10 @@ export class AppPage {
         return this.page.getByText(/^Founders.+/)
     }
 
+    get $mainContent() {
+        return this.page.getByRole('main')
+    }
+
     async navigateTo(menuPath: string[]) {
         for (const menuName of menuPath) {
             await this.$navigation.getByRole('link', { name: menuName }).hover()
