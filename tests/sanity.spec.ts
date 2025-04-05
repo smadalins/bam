@@ -1,18 +1,23 @@
 import { test, expect } from '@/common/fixtures'
 import { ContactForm } from '@/pages/ContactUsPage'
-import { getFieldSourround } from '@/common/helpers'
+import { getFieldSourround, getFieldValidationMessage } from '@/common/helpers'
 import { faker } from '@faker-js/faker'
 
 test('founders are visible on the Leadership page', async ({ mainPage }) => {
+    // Given
     await mainPage.goto()
+    // When
     await mainPage.navigateTo(['About Us', 'Leadership'])
+    // Then
     for (const founder of ['Dmitry Balyasny', "Taylor O'Malley", 'Scott Schroeder']) {
         await expect(mainPage.$foundersSection).toContainText(founder)
     }
 })
 
 test('validate the required fields in Contact form', async ({ contactUsPage }) => {
+    // Given
     await contactUsPage.goto()
+    // When
     const testData: ContactForm = {
         firstName: '',
         lastName: '',
@@ -21,6 +26,7 @@ test('validate the required fields in Contact form', async ({ contactUsPage }) =
     }
     await contactUsPage.fillForm(testData)
     await contactUsPage.submitContactForm()
+    // Then
     for (const required of ['$firstName', '$lastName', '$email', '$message']) {
         await expect(getFieldSourround(contactUsPage[required])).toHaveText(/This field is required/)
     }
@@ -33,7 +39,9 @@ const invalidEmailErrorText = {
     webkit: 'Enter an email address',
 }
 test('validate the Contact form with invalid email', async ({ contactUsPage, browser }) => {
+    // Given
     await contactUsPage.goto()
+    // When
     const testData: ContactForm = {
         firstName: faker.person.firstName(),
         lastName: faker.person.lastName(),
@@ -42,9 +50,9 @@ test('validate the Contact form with invalid email', async ({ contactUsPage, bro
     }
     await contactUsPage.fillForm(testData)
     await contactUsPage.submitContactForm()
+    // Then
     await expect(contactUsPage.$email).toBeFocused()
-    const validationMsg = await contactUsPage.$email.evaluate((el) => {
-        return (el as HTMLInputElement).validationMessage
-    })
-    expect(validationMsg).toBe(invalidEmailErrorText[browser.browserType().name()])
+    expect(await getFieldValidationMessage(contactUsPage.$email)).toBe(
+        invalidEmailErrorText[browser.browserType().name()],
+    )
 })
