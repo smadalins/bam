@@ -1,0 +1,222 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: submitting contact form by automation with valida data is blocked by reCAPTCHA
+- Location: /home/runner/work/bam/bam/tests/contactForm.spec.ts:76:5
+
+# Error details
+
+```
+Error: expect(received).toMatch(expected)
+
+Expected pattern: /Failed reCAPTCHA verification/
+Received string:  "{\"success\":true}"
+    at /home/runner/work/bam/bam/tests/contactForm.spec.ts:105:35
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - navigation "Header":
+    - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+      - text: Balyasny Asset Management Homepage
+      - img "Balyasny Asset Management Logo"
+    - link "About Us"
+    - button "About Us"
+    - link "How We Work"
+    - button "How We Work"
+    - link "Our Strategies"
+    - link "News & Insights"
+    - link "Careers"
+    - button "Careers"
+    - link "Investor Login"
+- main:
+  - text: Contact Us
+  - heading "Get in touch" [level=2]
+  - text: First Name*
+  - textbox "First Name*"
+  - text: Last Name*
+  - textbox "Last Name*"
+  - text: E-mail Address*
+  - textbox "E-mail Address*"
+  - text: Company/School Name
+  - textbox "Company/School Name"
+  - text: Phone Number
+  - textbox "Phone Number"
+  - text: Topic
+  - combobox "Topic":
+    - option "Please select a topic" [disabled] [selected]
+    - option "General"
+    - option "Media Requests"
+    - option "Investor Relations"
+    - option "Request a Campus Visit"
+    - option "Employment Verification"
+  - text: Your Message*
+  - textbox "Your Message*"
+  - text: This site is protected by reCAPTCHA and the Google
+  - link "Privacy Policy"
+  - text: and
+  - link "Terms of Service"
+  - text: apply.
+  - button "Submit"
+  - alert: Form submitted successfully! We will contact you soon.
+- contentinfo "Footer":
+  - heading "Footer" [level=2]
+  - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+    - text: Balyasny Asset Management Homepage
+    - img "Balyasny Asset Management Logo"
+  - link "About Us"
+  - link "Leadership"
+  - link "Locations"
+  - link "How We Work"
+  - link "Investment"
+  - link "Risk"
+  - link "Technology"
+  - link "Business Infrastructure"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - link "Internships"
+  - link "Early Career"
+  - link "Talent Development"
+  - link "Open Roles"
+  - link "Contact Us"
+  - heading "Legal documents" [level=3]
+  - link "User Agreement"
+  - link "Privacy Policy"
+  - link "U.K. Regulatory Disclosures"
+  - link "Fraudulent Schemes Warning"
+  - heading "Social Media Links" [level=3]
+  - link "Instagram Logo":
+    - img "Instagram Logo"
+  - link "YouTube Logo":
+    - img "YouTube Logo"
+  - link "LinkedIn Logo":
+    - img "LinkedIn Logo"
+  - paragraph: © 2025 Balyasny Asset Management L.P. All rights reserved.
+- paragraph: Our website uses cookies to give you the best browsing experience. By using this website, you consent to our use of cookies.
+- paragraph:
+  - text: For more information, please read our
+  - link "Privacy Policy"
+  - text: .
+- button "Accept cookies": I understand
+- alert
+```
+
+# Test source
+
+```ts
+   5 | import { Config } from '@/config'
+   6 |
+   7 | test('submitting the Contact Form with empty required fields show validation message', async ({ contactUsPage }) => {
+   8 |     // Given
+   9 |     await contactUsPage.goto()
+   10 |     // When
+   11 |     const testData: ContactForm = {
+   12 |         firstName: '',
+   13 |         lastName: '',
+   14 |         email: '',
+   15 |         message: '',
+   16 |     }
+   17 |     await contactUsPage.fillForm(testData)
+   18 |     await contactUsPage.submitContactForm()
+   19 |     // Then
+   20 |     for (const required of ['$firstName', '$lastName', '$email', '$message']) {
+   21 |         await expect(getFieldSourround(contactUsPage[required])).toHaveText(/This field is required/)
+   22 |     }
+   23 | })
+   24 |
+   25 | const invalidEmail = 'invalid-email'
+   26 | const invalidEmailErrorText = {
+   27 |     chromium: `Please include an '@' in the email address. '${invalidEmail}' is missing an '@'.`,
+   28 |     firefox: 'Please enter an email address.',
+   29 |     webkit: 'Enter an email address',
+   30 | }
+   31 | test('submitting the Contact Form with invalidEmail show validation message', async ({ contactUsPage, browser }) => {
+   32 |     // Given
+   33 |     await contactUsPage.goto()
+   34 |     // When
+   35 |     const testData: ContactForm = {
+   36 |         firstName: faker.person.firstName(),
+   37 |         lastName: faker.person.lastName(),
+   38 |         email: invalidEmail,
+   39 |         message: faker.lorem.paragraphs(),
+   40 |     }
+   41 |     await contactUsPage.fillForm(testData)
+   42 |     await contactUsPage.submitContactForm()
+   43 |     // Then
+   44 |     await expect(contactUsPage.$email).toBeFocused()
+   45 |     expect(await getFieldValidationMessage(contactUsPage.$email)).toBe(
+   46 |         invalidEmailErrorText[browser.browserType().name()],
+   47 |     )
+   48 | })
+   49 |
+   50 | test('submitting the Contact Form with invalid phone number show validation message', async ({ contactUsPage }) => {
+   51 |     // Given
+   52 |     await contactUsPage.goto()
+   53 |     // When
+   54 |     const testData: ContactForm = {
+   55 |         firstName: faker.person.firstName(),
+   56 |         lastName: faker.person.lastName(),
+   57 |         email: faker.internet.email(),
+   58 |         companySchoolName: faker.company.name(),
+   59 |         phoneNumber: 'invalid-phone-number',
+   60 |         topic: faker.helpers.arrayElement([
+   61 |             'General',
+   62 |             'Media Requests',
+   63 |             'Investor Relations',
+   64 |             'Request a Campus Visit',
+   65 |             'Employment Verification',
+   66 |         ]),
+   67 |         message: faker.lorem.paragraphs(),
+   68 |     }
+   69 |     await contactUsPage.fillForm(testData)
+   70 |     await contactUsPage.submitContactForm()
+   71 |     // Then
+   72 |     await expect(contactUsPage.$phoneNumber).toBeFocused()
+   73 |     await expect(getFieldSourround(contactUsPage.$phoneNumber)).toHaveText(/Invalid phone number/)
+   74 | })
+   75 |
+   76 | test('submitting contact form by automation with valida data is blocked by reCAPTCHA', async ({ contactUsPage }) => {
+   77 |     // Given
+   78 |     await contactUsPage.goto()
+   79 |     // Wait for the page to load completely along with the reCAPTCHA
+   80 |     // eslint-disable-next-line playwright/no-networkidle
+   81 |     await contactUsPage.page.waitForLoadState('networkidle')
+   82 |     // When
+   83 |     const testData: ContactForm = {
+   84 |         firstName: faker.person.firstName(),
+   85 |         lastName: faker.person.lastName(),
+   86 |         email: faker.internet.email(),
+   87 |         companySchoolName: faker.company.name(),
+   88 |         phoneNumber: faker.phone.number({ style: 'international' }),
+   89 |         topic: faker.helpers.arrayElement([
+   90 |             'General',
+   91 |             'Media Requests',
+   92 |             'Investor Relations',
+   93 |             'Request a Campus Visit',
+   94 |             'Employment Verification',
+   95 |         ]),
+   96 |         message: faker.lorem.paragraphs(),
+   97 |     }
+   98 |     await contactUsPage.fillForm(testData)
+   99 |     const responsePromise = contactUsPage.page.waitForResponse(
+  100 |         (response) => response.url().includes(Config.API_URL) && response.request().method() === 'POST',
+  101 |     )
+  102 |     await contactUsPage.submitContactForm()
+  103 |     const response = await responsePromise
+  104 |     // Then
+> 105 |     expect(await response.text()).toMatch(/Failed reCAPTCHA verification/)
+      |                                   ^ Error: expect(received).toMatch(expected)
+  106 |     await expect(contactUsPage.$mainContent).toContainText(
+  107 |         'There was an error submitting the form. Please try again or refresh the page.',
+  108 |     )
+  109 | })
+  110 |
+```
