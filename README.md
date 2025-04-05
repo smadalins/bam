@@ -42,10 +42,10 @@ Allure reports are generated after running tests locally and in the GHA pipeline
 To show Allure reports, run the following command from the root of the project after running tests:
 `allure serve`. Note that [you must have Allure installed on your machine][allure-install] first.
 
-Allure reports are also generated in the GHA pipeline. You can find latest report in [GH pages](https://smadalins.github.io/bam). The link to particular report is generated for each run and can be found on the workflow run page.
+Allure reports are also generated in the GHA pipeline. You can find latest report in [GH pages][gh-pages]. The link to particular report is generated for each run and can be found on the workflow run page.
 
 
-To analyze the trace of the failed test, you have to go to the failed test in the report and download the trace file. Then drag and drop the trace file into the [playwrig-trace]: https://trace.playwright.dev
+To analyze the trace of the failed test, you have to go to the failed test in the report and download the trace file. Then drag and drop the trace file into the [playwrig-trace][playwright-trace] page. This will allow you to see the exact steps that were taken during the test execution, including screenshots and network requests.
 
 ## Suported browsers
 The following browsers are supported by the framework:
@@ -61,5 +61,6 @@ The following browsers are supported by the framework:
 [playwright]: https://playwright.dev/docs/next/intro
 [playwright-run-tests]: https://playwright.dev/docs/next/running-tests
 [playwright-write-tests]: https://playwright.dev/docs/next/writing-tests
-[allure-playwright]: https://allurereport.org/docs/playwright/
+[playwright-trace]: https://trace.playwright.dev
+[gh-pages]: https://smadalins.github.io/bam
 [nvm]: https://github.com/nvm-sh/nvm
