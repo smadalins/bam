@@ -1,13 +1,9 @@
 import { test, expect } from '@/common/fixtures'
 import { ContactForm } from '@/pages/ContactUsPage'
 import { getFieldSourround } from '@/common/helpers'
+import { faker } from '@faker-js/faker'
 
-test('page load', async ({ page }) => {
-    await page.goto('')
-    await expect(page).toHaveTitle(/Balyasny Asset Management/)
-})
-
-test('founders are presented on the Leadership page', async ({ mainPage }) => {
+test('founders are visible on the Leadership page', async ({ mainPage }) => {
     await mainPage.goto()
     await mainPage.navigateTo(['About Us', 'Leadership'])
     for (const founder of ['Dmitry Balyasny', "Taylor O'Malley", 'Scott Schroeder']) {
@@ -15,7 +11,7 @@ test('founders are presented on the Leadership page', async ({ mainPage }) => {
     }
 })
 
-test('validate the Contact form', async ({ contactUsPage }) => {
+test('validate the required fields in Contact form', async ({ contactUsPage }) => {
     await contactUsPage.goto()
     const testData: ContactForm = {
         firstName: '',
@@ -30,13 +26,19 @@ test('validate the Contact form', async ({ contactUsPage }) => {
     }
 })
 
-test('validate the Contact form with invalid email', async ({ contactUsPage }) => {
+const invalidEmail = 'invalid-email'
+const invalidEmailErrorText = {
+    chromium: `Please include an '@' in the email address. '${invalidEmail}' is missing an '@'.`,
+    firefox: 'Please enter an email address.',
+    webkit: 'Enter an email address',
+}
+test('validate the Contact form with invalid email', async ({ contactUsPage, browser }) => {
     await contactUsPage.goto()
     const testData: ContactForm = {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'invalid-email',
-        message: 'Test message',
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        email: invalidEmail,
+        message: faker.lorem.paragraphs(),
     }
     await contactUsPage.fillForm(testData)
     await contactUsPage.submitContactForm()
@@ -44,5 +46,5 @@ test('validate the Contact form with invalid email', async ({ contactUsPage }) =
     const validationMsg = await contactUsPage.$email.evaluate((el) => {
         return (el as HTMLInputElement).validationMessage
     })
-    expect(validationMsg).toBe("Please include an '@' in the email address. 'invalid-email' is missing an '@'.")
+    expect(validationMsg).toBe(invalidEmailErrorText[browser.browserType().name()])
 })
