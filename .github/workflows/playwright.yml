@@ -116,4 +116,5 @@ jobs:
                   publish_dir: allure-history
 
             - name: Write URL in summary
+              if: always()
               run: echo "### Test results - https://smadalins.github.io/bam/${{ github.run_number }}/index.html" >> $GITHUB_STEP_SUMMARY
