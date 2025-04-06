@@ -1,0 +1,203 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: top navigation menu can redirect to all pages
+- Location: /home/runner/work/bam/bam/tests/navigation.spec.ts:38:5
+
+# Error details
+
+```
+Error: expect(locator).toHaveText(expected)
+
+Locator: getByRole('main')
+Expected pattern: /^Talent Development/i
+Received string:  "Early careerStart buildingWhether you’re pursuing a summer internship or an entry-level position, our early career programs empower individuals to learn and grow within Balyasny. opportunitiesPrograms that propel you forwardInternshipsBalyasny interns gain hands-on experience with our global program. We welcome applications from those pursuing a bachelor's, master's, MBA, or PhD degree, and provide an opportunity for you to stand out, contribute to our teams, and be considered for a full-time position at the firm.Rotational ProgramsAs interns transition to full-time roles, rotational programs in Fixed Income & Macro, Commodities, and Technology help launch careers at Balyasny. The opportunities provide a strong foundation in asset management, ensuring young talent has the opportunity to work with top performing Investment Teams and find their best fit in the organization.Bridger ProgramThis six-month development program \"bridges\" candidates with 1-5 years of financial experience into investment analyst roles on the buy-side, providing intensive training in modeling, valuation, pitching, Python, and AI. Analyst DevelopmentAnalysts receive proactive, ongoing mentorship from Equity Management and senior leaders across the firm. See all open rolesCultivating the next generation of leadersExposure to senior leadership We are committed to nurturing talent and providing mentorship and expert guidance to young professionals, supporting your growth and development. Hands-on experienceWe believe our people should have the opportunity to take on responsibility and learn by doing. Internships at BalyasnyOur internships provide each participant with the opportunity to gain experience by participating in the business in a substantive way. They provide the solid foundation you need to launch your career. Learn moreTeams at BalyasnyOur teams work together to enhance our ideas and increase our impact. Together, we drive success and foster innovation across the firm.Learn more about how we workOur teams work together to enhance our ideas and increase our impact. Together, we drive success and foster innovation across the firm.Learn more about how we work"
+Call log:
+  - expect.toHaveText with timeout 5000ms
+  - waiting for getByRole('main')
+    2 × locator resolved to <main class="flex flex-col flex-1 w-full overflow-hidden mt-12 sm:mt-16 md:mt-24 lg:mt-32">…</main>
+      - unexpected value "Early careerStart buildingWhether you’re pursuing a summer internship or an entry-level position, our early career programs empower individuals to learn and grow within Balyasny. opportunitiesPrograms that propel you forwardInternshipsBalyasny interns gain hands-on experience with our global program. We welcome applications from those pursuing a bachelor's, master's, MBA, or PhD degree, and provide an opportunity for you to stand out, contribute to our teams, and be considered for a full-time position at the firm.Rotational ProgramsAs interns transition to full-time roles, rotational programs in Fixed Income & Macro, Commodities, and Technology help launch careers at Balyasny. The opportunities provide a strong foundation in asset management, ensuring young talent has the opportunity to work with top performing Investment Teams and find their best fit in the organization.Bridger ProgramThis six-month development program "bridges" candidates with 1-5 years of financial experience into investment analyst roles on the buy-side, providing intensive training in modeling, valuation, pitching, Python, and AI. Analyst DevelopmentAnalysts receive proactive, ongoing mentorship from Equity Management and senior leaders across the firm. See all open rolesCultivating the next generation of leadersExposure to senior leadership We are committed to nurturing talent and providing mentorship and expert guidance to young professionals, supporting your growth and development. Hands-on experienceWe believe our people should have the opportunity to take on responsibility and learn by doing. Internships at BalyasnyOur internships provide each participant with the opportunity to gain experience by participating in the business in a substantive way. They provide the solid foundation you need to launch your career. Learn moreTeams at BalyasnyOur teams work together to enhance our ideas and increase our impact. Together, we drive success and foster innovation across the firm.Learn more about how we workOur teams work together to enhance our ideas and increase our impact. Together, we drive success and foster innovation across the firm.Learn more about how we work"
+
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:73:53
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:64:9
+```
+
+# Page snapshot
+
+```yaml
+- alert: Early Career | Balyasny Asset Management
+- banner:
+  - navigation "Header":
+    - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+      - text: Balyasny Asset Management Homepage
+      - img "Balyasny Asset Management Logo"
+    - link "About Us"
+    - button "About Us"
+    - link "How We Work"
+    - button "How We Work"
+    - link "Our Strategies"
+    - link "News & Insights"
+    - link "Careers"
+    - button "Careers" [expanded]
+    - link "Internships"
+    - link "Early Career"
+    - link "Talent Development"
+    - link "Open Roles"
+    - link "Investor Login"
+- main:
+  - paragraph: Early career
+  - heading "Start building" [level=2]
+  - paragraph: Whether you’re pursuing a summer internship or an entry-level position, our early career programs empower individuals to learn and grow within Balyasny.
+  - text: opportunities
+  - heading "Programs that propel you forward" [level=2]
+  - text: Internships
+  - paragraph: Balyasny interns gain hands-on experience with our global program. We welcome applications from those pursuing a bachelor's, master's, MBA, or PhD degree, and provide an opportunity for you to stand out, contribute to our teams, and be considered for a full-time position at the firm.
+  - text: Rotational Programs
+  - paragraph: As interns transition to full-time roles, rotational programs in Fixed Income & Macro, Commodities, and Technology help launch careers at Balyasny. The opportunities provide a strong foundation in asset management, ensuring young talent has the opportunity to work with top performing Investment Teams and find their best fit in the organization.
+  - text: Bridger Program
+  - paragraph: This six-month development program "bridges" candidates with 1-5 years of financial experience into investment analyst roles on the buy-side, providing intensive training in modeling, valuation, pitching, Python, and AI.
+  - text: Analyst Development
+  - paragraph: Analysts receive proactive, ongoing mentorship from Equity Management and senior leaders across the firm.
+  - link "See all open roles"
+  - heading "Cultivating the next generation of leaders" [level=2]
+  - text: Exposure to senior leadership
+  - paragraph: We are committed to nurturing talent and providing mentorship and expert guidance to young professionals, supporting your growth and development.
+  - text: Hands-on experience
+  - paragraph: We believe our people should have the opportunity to take on responsibility and learn by doing.
+  - heading "Internships at Balyasny" [level=3]
+  - paragraph: Our internships provide each participant with the opportunity to gain experience by participating in the business in a substantive way. They provide the solid foundation you need to launch your career.
+  - link "Learn more"
+  - img "BAMFunds Illustration"
+  - heading "Teams at Balyasny" [level=2]
+  - heading "Our teams work together to enhance our ideas and increase our impact. Together, we drive success and foster innovation across the firm." [level=3]
+  - link "Learn more about how we work"
+- contentinfo "Footer":
+  - heading "Footer" [level=2]
+  - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+    - text: Balyasny Asset Management Homepage
+    - img "Balyasny Asset Management Logo"
+  - link "About Us"
+  - link "Leadership"
+  - link "Locations"
+  - link "How We Work"
+  - link "Investment"
+  - link "Risk"
+  - link "Technology"
+  - link "Business Infrastructure"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - link "Internships"
+  - link "Early Career"
+  - link "Talent Development"
+  - link "Open Roles"
+  - link "Contact Us"
+  - heading "Legal documents" [level=3]
+  - link "User Agreement"
+  - link "Privacy Policy"
+  - link "U.K. Regulatory Disclosures"
+  - link "Fraudulent Schemes Warning"
+  - heading "Social Media Links" [level=3]
+  - link "Instagram Logo":
+    - img "Instagram Logo"
+  - link "YouTube Logo":
+    - img "YouTube Logo"
+  - link "LinkedIn Logo":
+    - img "LinkedIn Logo"
+  - paragraph: © 2025 Balyasny Asset Management L.P. All rights reserved.
+- paragraph: Our website uses cookies to give you the best browsing experience. By using this website, you consent to our use of cookies.
+- paragraph:
+  - text: For more information, please read our
+  - link "Privacy Policy"
+  - text: .
+- button "Accept cookies": I understand
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@/common/fixtures'
+   2 |
+   3 | test('navigating to the Leadership page show all founders', async ({ mainPage }) => {
+   4 |     // Given
+   5 |     await mainPage.goto()
+   6 |     // When
+   7 |     await mainPage.navigateTo(['About Us', 'Leadership'])
+   8 |     // Then
+   9 |     for (const founder of ['Dmitry Balyasny', "Taylor O'Malley", 'Scott Schroeder']) {
+  10 |         await expect(mainPage.$foundersSection).toContainText(founder)
+  11 |     }
+  12 | })
+  13 |
+  14 | const menuItems = {
+  15 |     'About Us': ['Leadership', 'Locations'],
+  16 |     'How We Work': ['Investment', 'Risk', 'Technology', 'Business Infrastructure'],
+  17 |     'Our Strategies': [],
+  18 |     'News & Insights': [],
+  19 |     Careers: ['Internships', 'Early Career', 'Talent Development' /*,'Open Roles'*/],
+  20 | }
+  21 | const textOnPage = {
+  22 |     'About Us': 'About Us',
+  23 |     Leadership: 'Leadership',
+  24 |     Locations: 'Locations',
+  25 |     'How We Work': 'How We Work',
+  26 |     Investment: 'Investment',
+  27 |     Risk: 'Risk',
+  28 |     Technology: 'Technology',
+  29 |     'Business Infrastructure': 'Business Infrastructure',
+  30 |     'Our Strategies': 'Investment Strategies',
+  31 |     'News & Insights': 'News',
+  32 |     Careers: 'Careers',
+  33 |     Internships: 'Internships',
+  34 |     'Early Career': 'Early Career',
+  35 |     'Talent Development': 'Talent Development',
+  36 |     'Open Roles': 'Open Roles',
+  37 | }
+  38 | test('top navigation menu can redirect to all pages', async ({ mainPage }) => {
+  39 |     /*   This test is to check the top navigation menu items and sub-menu menu items
+  40 |      *   The test will navigate to each menu item and sub-menu menuItems
+  41 |      *   and check if the page is loaded correctly
+  42 |      *
+  43 |      *   The test will check the following menu items:
+  44 |      *   - About Us
+  45 |      *   - How We Work
+  46 |      *   - Our Strategies
+  47 |      *   - News & Insights
+  48 |      *   - Careers
+  49 |      *   - Leadership
+  50 |      *   - Locations
+  51 |      *   - Investment
+  52 |      *   - Risk
+  53 |      *   - Technology
+  54 |      *   - Business Infrastructure
+  55 |      *   - Internships
+  56 |      *   - Early Careers
+  57 |      *   - Talent Development
+  58 |      *
+  59 |      *   Open Roles is commented out because it is link to new tab and not handled in this test
+  60 |      */
+  61 |     // Given
+  62 |     await mainPage.goto()
+  63 |     for (const menuItem of Object.keys(menuItems)) {
+  64 |         await test.step(`navigating to ${menuItem} pages`, async () => {
+  65 |             // When
+  66 |             await mainPage.navigateTo([menuItem])
+  67 |             // Then
+  68 |             await expect(mainPage.$mainContent).toHaveText(RegExp(`^${textOnPage[menuItem]}`, 'i'))
+  69 |             for (const subMenuItem of menuItems[menuItem]) {
+  70 |                 // When
+  71 |                 await mainPage.navigateTo([menuItem, subMenuItem])
+  72 |                 // Then
+> 73 |                 await expect(mainPage.$mainContent).toHaveText(RegExp(`^${textOnPage[subMenuItem]}`, 'i'))
+     |                                                     ^ Error: expect(locator).toHaveText(expected)
+  74 |             }
+  75 |         })
+  76 |     }
+  77 | })
+  78 |
+```
