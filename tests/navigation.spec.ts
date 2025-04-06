@@ -36,6 +36,28 @@ const textOnPage = {
     'Open Roles': 'Open Roles',
 }
 test('top navigation menu can redirect to all pages', async ({ mainPage }) => {
+    /*   This test is to check the top navigation menu items and sub-menu menu items
+     *   The test will navigate to each menu item and sub-menu menuItems
+     *   and check if the page is loaded correctly
+     *
+     *   The test will check the following menu items:
+     *   - About Us
+     *   - How We Work
+     *   - Our Strategies
+     *   - News & Insights
+     *   - Careers
+     *   - Leadership
+     *   - Locations
+     *   - Investment
+     *   - Risk
+     *   - Technology
+     *   - Business Infrastructure
+     *   - Internships
+     *   - Early Careers
+     *   - Talent Development
+     *
+     *   Open Roles is commented out because it is link to new tab and not handled in this test
+     */
     // Given
     await mainPage.goto()
     for (const menuItem of Object.keys(menuItems)) {

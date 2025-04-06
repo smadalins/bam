@@ -74,6 +74,12 @@ test('submitting the Contact Form with invalid phone number show validation mess
 })
 
 test('submitting contact form by automation with valida data is blocked by reCAPTCHA', async ({ contactUsPage }) => {
+    /*
+     * This test is to check if the reCAPTCHA is blocking the form submission when the form is filled by automation
+     * The test will fill the form with valid data and submit it.
+     * The test will check if the reCAPTCHA is blocking the form submission by checking the response of the form submission.
+     * The test will check if the error message is shown on the page.
+     */
     // Given
     await contactUsPage.goto()
     // Wait for the page to load completely along with the reCAPTCHA
