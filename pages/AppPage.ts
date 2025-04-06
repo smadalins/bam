@@ -2,7 +2,7 @@ import { Page } from '@playwright/test'
 import { test as base } from '@playwright/test'
 
 export class AppPage {
-    readonly page: Page
+    protected page: Page
     protected url: string
 
     constructor(page: Page) {
@@ -32,7 +32,21 @@ export class AppPage {
         for (const menuName of menuPath) {
             await this.$navigation.getByRole('link', { name: menuName }).hover()
         }
-        await this.$navigation.getByRole('link', { name: menuPath.at(-1) }).click()
+        await this.clickMenu(menuPath.at(-1))
+    }
+
+    private async clickMenu(menuName: string) {
+        const menu = this.$navigation.getByRole('link', { name: menuName })
+        let pagePromise: Promise<Page> = Promise.resolve(this.page)
+        if ((await menu.getAttribute('target')) === '_blank') {
+            pagePromise = this.page.waitForEvent('popup')
+        }
+
+        await menu.click()
+
+        if ((await menu.getAttribute('target')) === '_blank') {
+            this.page = await pagePromise
+        }
     }
 }
 
