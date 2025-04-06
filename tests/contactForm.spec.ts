@@ -79,6 +79,8 @@ test('submitting contact form by automation with valida data is blocked by reCAP
      * The test will fill the form with valid data and submit it.
      * The test will check if the reCAPTCHA is blocking the form submission by checking the response of the form submission.
      * The test will check if the error message is shown on the page.
+     *
+     * THE TEST WILL FAIL IF THE reCAPTCHA IS NOT BLOCKING THE FORM SUBMISSION (hapens from time to time on Firefox and Webkit)
      */
     // Given
     await contactUsPage.goto()

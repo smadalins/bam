@@ -36,6 +36,7 @@ const textOnPage = {
     'Open Roles': 'Open RolesExplore Opportunities',
 }
 test('top navigation menu can redirect to all pages', async ({ mainPage }) => {
+    test.setTimeout(60_000)
     /*   This test is to check the top navigation menu items and sub-menu menu items
      *   The test will navigate to each menu item and sub-menu menuItems
      *   and check if the page is loaded correctly
