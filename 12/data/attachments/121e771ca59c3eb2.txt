@@ -1,0 +1,192 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: top navigation menu can redirect to all pages
+- Location: /home/runner/work/bam/bam/tests/navigation.spec.ts:38:5
+
+# Error details
+
+```
+Error: locator.hover: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByRole('navigation').getByRole('link', { name: 'About Us' })
+    - locator resolved to <a c-bamnavheader_bamnavheader="" href="http://www.bamfunds.com/about-us" class="p-2 xl:px-5 xl:py-3 border-2 font-semibold border-transparent transition-[color] duration-200 hover:text-blue-400 focus:outline-none mr-1.5 xl:mr-2">About Us</a>
+  - attempting hover action
+    - waiting for element to be visible and stable
+
+    at AppPage.navigateTo (/home/runner/work/bam/bam/pages/AppPage.ts:33:74)
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:77:5
+```
+
+# Page snapshot
+
+```yaml
+- alert: Talent Development | Balyasny Asset Management
+- banner:
+  - navigation "Header":
+    - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+      - text: Balyasny Asset Management Homepage
+      - img "Balyasny Asset Management Logo"
+    - link "About Us"
+    - button "About Us"
+    - link "How We Work"
+    - button "How We Work"
+    - link "Our Strategies"
+    - link "News & Insights"
+    - link "Careers"
+    - button "Careers" [expanded]
+    - link "Internships"
+    - link "Early Career"
+    - link "Talent Development"
+    - link "Open Roles"
+    - link "Investor Login"
+- main:
+  - paragraph: Talent Development
+  - heading "Advance at a firm that invests in your success" [level=2]
+  - paragraph: Talent development is a strategic priority at Balyasny—for ourselves and our investors. Through hands-on experience and custom training programs, we invest in making long-term success possible for all roles and levels of experience.
+  - heading "Programs that propel talent" [level=2]
+  - text: Anthem program
+  - heading "Building the next generation of portfolio managers" [level=3]
+  - paragraph: Balyasny’s Anthem program is designed for high-performing senior analysts with 8+ years of buy-side experience. Participants engage in a tailored curriculum that includes mentorship from expert leaders on topics like idea review, portfolio allocation, coverage expansion, and risk management.
+  - img "BAMFunds Illustration"
+  - paragraph: “BAM encourages personal career progression in an environment where analysts have access to all of the firm’s resources, including senior management and founders.”
+  - paragraph: T. M. Senior Equity Analyst
+  - text: Bridger Program
+  - heading "Transitioning to the buy side" [level=3]
+  - paragraph: Our Bridger Program helps young investment professionals with 1-4 years of research experience transition to a successful career on the buy side. Candidates develop their skill set through close mentorship over six months, with the goal of easily integrating into a BAM fundamental equities team at the end of the program.
+  - img "BAMFunds Illustration"
+  - paragraph: “The Bridger program presented an opportunity to accelerate my career path and grow my skills.”
+  - paragraph: Nicole G. Senior Associate
+  - text: Leadership Foundations
+  - heading "Leveling up skills for emerging leaders" [level=3]
+  - paragraph: The Leadership Foundations Program is an in-person training program designed to equip employees with fundamental management skills to help drive individual performance and team engagement. Over a nine-month curriculum, participants engage in a holistic learning experience featuring BAM leaders and internal faculty, external subject matter experts, and peer-to-peer learning.
+  - img "BAMFunds Illustration"
+  - paragraph: “Equipping our people with practical leadership skills is crucial. Knowing that they can become a leader at Balyasny is one reason why so many talented individuals have chosen to build their careers here. ”
+  - paragraph: Diane Morris Head of Talent Development
+  - paragraph: FAQ
+  - term:
+    - button "Who should apply for a role at Balyasny?"
+  - term:
+    - button "I don’t have experience in the financial industry. Can I still apply?"
+  - term:
+    - button "What is the interview process like?"
+  - link "See open roles":
+    - paragraph: See open roles
+  - heading "Explore early career opportunities for students and recent graduates" [level=3]
+  - link "Learn more"
+  - img "BAMFunds Illustration"
+- contentinfo "Footer":
+  - heading "Footer" [level=2]
+  - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+    - text: Balyasny Asset Management Homepage
+    - img "Balyasny Asset Management Logo"
+  - link "About Us"
+  - link "Leadership"
+  - link "Locations"
+  - link "How We Work"
+  - link "Investment"
+  - link "Risk"
+  - link "Technology"
+  - link "Business Infrastructure"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - link "Internships"
+  - link "Early Career"
+  - link "Talent Development"
+  - link "Open Roles"
+  - link "Contact Us"
+  - heading "Legal documents" [level=3]
+  - link "User Agreement"
+  - link "Privacy Policy"
+  - link "U.K. Regulatory Disclosures"
+  - link "Fraudulent Schemes Warning"
+  - heading "Social Media Links" [level=3]
+  - link "Instagram Logo":
+    - img "Instagram Logo"
+  - link "YouTube Logo":
+    - img "YouTube Logo"
+  - link "LinkedIn Logo":
+    - img "LinkedIn Logo"
+  - paragraph: © 2025 Balyasny Asset Management L.P. All rights reserved.
+- paragraph: Our website uses cookies to give you the best browsing experience. By using this website, you consent to our use of cookies.
+- paragraph:
+  - text: For more information, please read our
+  - link "Privacy Policy"
+  - text: .
+- button "Accept cookies": I understand
+```
+
+# Test source
+
+```ts
+   1 | import { Page } from '@playwright/test'
+   2 | import { test as base } from '@playwright/test'
+   3 |
+   4 | export class AppPage {
+   5 |     protected page: Page
+   6 |     protected url: string
+   7 |
+   8 |     constructor(page: Page) {
+   9 |         this.page = page
+  10 |         this.url = ''
+  11 |     }
+  12 |
+  13 |     async goto(sufix: string = '') {
+  14 |         await this.page.goto(this.url.concat(sufix))
+  15 |     }
+  16 |
+  17 |     get $navigation() {
+  18 |         return this.page.getByRole('navigation')
+  19 |     }
+  20 |
+  21 |     get $foundersSection() {
+  22 |         return this.page.getByText(/^Founders.+/)
+  23 |     }
+  24 |
+  25 |     get $mainContent() {
+  26 |         return this.page.getByRole('main')
+  27 |     }
+  28 |
+  29 |     async navigateTo(menuPath: string[]) {
+  30 |         //  Move the mouse to workaround the hover issue on Firefox
+  31 |         await this.page.mouse.move(0, 0)
+  32 |         for (const menuName of menuPath) {
+> 33 |             await this.$navigation.getByRole('link', { name: menuName }).hover()
+     |                                                                          ^ Error: locator.hover: Test timeout of 30000ms exceeded.
+  34 |         }
+  35 |         await this.clickMenu(menuPath.at(-1))
+  36 |     }
+  37 |
+  38 |     private async clickMenu(menuName: string) {
+  39 |         const menu = this.$navigation.getByRole('link', { name: menuName })
+  40 |         let pagePromise: Promise<Page> = Promise.resolve(this.page)
+  41 |         if ((await menu.getAttribute('target')) === '_blank') {
+  42 |             pagePromise = this.page.waitForEvent('popup')
+  43 |         }
+  44 |
+  45 |         await menu.click()
+  46 |
+  47 |         if ((await menu.getAttribute('target')) === '_blank') {
+  48 |             this.page = await pagePromise
+  49 |         }
+  50 |     }
+  51 | }
+  52 |
+  53 | type TestFixtures = {
+  54 |     mainPage: AppPage
+  55 | }
+  56 |
+  57 | export const test = base.extend<TestFixtures>({
+  58 |     mainPage: async ({ page }, use) => {
+  59 |         const appPage = new AppPage(page)
+  60 |         await use(appPage)
+  61 |     },
+  62 | })
+  63 |
+```

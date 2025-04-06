@@ -1,0 +1,224 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: top navigation menu can redirect to all pages
+- Location: /home/runner/work/bam/bam/tests/navigation.spec.ts:38:5
+
+# Error details
+
+```
+Error: expect(locator).toHaveText(expected)
+
+Locator: getByRole('main')
+Expected pattern: /Open RolesExplore Opportunities/i
+Received string:  ""
+Call log:
+  - expect.toHaveText with timeout 5000ms
+  - waiting for getByRole('main')
+    - locator resolved to <div role="main" tabindex="-1" data-aura-rendered-by="340:0" class="body isPageWidthFixed-false">…</div>
+    - unexpected value ""
+
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:72:53
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:63:9
+```
+
+# Page snapshot
+
+```yaml
+- alert: Talent Development | Balyasny Asset Management
+- banner:
+  - navigation "Header":
+    - link "Balyasny Asset Management HomepageBalyasny Asset Management Logo":
+      - text: Balyasny Asset Management Homepage
+      - img "Balyasny Asset Management Logo"
+    - button "Open Main Navigation"
+    - link "About Us"
+    - button "About Us"
+    - link "How We Work"
+    - button "How We Work"
+    - link "Our Strategies"
+    - link "News & Insights"
+    - link "Careers"
+    - button "Careers" [expanded]
+    - link "Internships"
+    - link "Early Career"
+    - link "Talent Development"
+    - link "Open Roles"
+    - link "Investor Login"
+- main:
+  - paragraph: Talent Development
+  - heading "Advance at a firm that invests in your success" [level=2]
+  - paragraph: Talent development is a strategic priority at Balyasny—for ourselves and our investors. Through hands-on experience and custom training programs, we invest in making long-term success possible for all roles and levels of experience.
+  - heading "Programs that propel talent" [level=2]
+  - text: Anthem program
+  - heading "Building the next generation of portfolio managers" [level=3]
+  - paragraph: Balyasny’s Anthem program is designed for high-performing senior analysts with 8+ years of buy-side experience. Participants engage in a tailored curriculum that includes mentorship from expert leaders on topics like idea review, portfolio allocation, coverage expansion, and risk management.
+  - img "BAMFunds Illustration"
+  - paragraph: “BAM encourages personal career progression in an environment where analysts have access to all of the firm’s resources, including senior management and founders.”
+  - paragraph: T. M. Senior Equity Analyst
+  - text: Bridger Program
+  - heading "Transitioning to the buy side" [level=3]
+  - paragraph: Our Bridger Program helps young investment professionals with 1-4 years of research experience transition to a successful career on the buy side. Candidates develop their skill set through close mentorship over six months, with the goal of easily integrating into a BAM fundamental equities team at the end of the program.
+  - img "BAMFunds Illustration"
+  - paragraph: “The Bridger program presented an opportunity to accelerate my career path and grow my skills.”
+  - paragraph: Nicole G. Senior Associate
+  - text: Leadership Foundations
+  - heading "Leveling up skills for emerging leaders" [level=3]
+  - paragraph: The Leadership Foundations Program is an in-person training program designed to equip employees with fundamental management skills to help drive individual performance and team engagement. Over a nine-month curriculum, participants engage in a holistic learning experience featuring BAM leaders and internal faculty, external subject matter experts, and peer-to-peer learning.
+  - img "BAMFunds Illustration"
+  - paragraph: “Equipping our people with practical leadership skills is crucial. Knowing that they can become a leader at Balyasny is one reason why so many talented individuals have chosen to build their careers here. ”
+  - paragraph: Diane Morris Head of Talent Development
+  - paragraph: FAQ
+  - term:
+    - button "Who should apply for a role at Balyasny?"
+  - term:
+    - button "I don’t have experience in the financial industry. Can I still apply?"
+  - term:
+    - button "What is the interview process like?"
+  - link "See open roles":
+    - paragraph: See open roles
+  - heading "Explore early career opportunities for students and recent graduates" [level=3]
+  - link "Learn more"
+  - img "BAMFunds Illustration"
+- contentinfo "Footer":
+  - heading "Footer" [level=2]
+  - link "Balyasny Asset Management HomepageBalyasny Asset Management Logo":
+    - text: Balyasny Asset Management Homepage
+    - img "Balyasny Asset Management Logo"
+  - link "About Us"
+  - button "Expand About Us"
+  - link "How We Work"
+  - button "Expand How We Work"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - button "Expand Careers"
+  - link "Locations"
+  - link "Contact us"
+  - link "About Us"
+  - link "Leadership"
+  - link "Locations"
+  - link "How We Work"
+  - link "Investment"
+  - link "Risk"
+  - link "Technology"
+  - link "Business Infrastructure"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - link "Internships"
+  - link "Early Career"
+  - link "Talent Development"
+  - link "Open Roles"
+  - link "Contact Us"
+  - heading "Legal documents" [level=3]
+  - link "User Agreement"
+  - link "Privacy Policy"
+  - link "U.K. Regulatory Disclosures"
+  - link "Fraudulent Schemes Warning"
+  - heading "Social Media Links" [level=3]
+  - link "Instagram Logo":
+    - img "Instagram Logo"
+  - link "YouTube Logo":
+    - img "YouTube Logo"
+  - link "LinkedIn Logo":
+    - img "LinkedIn Logo"
+  - paragraph: © 2025 Balyasny Asset Management L.P. All rights reserved.
+- paragraph: Our website uses cookies to give you the best browsing experience. By using this website, you consent to our use of cookies.
+- paragraph:
+  - text: For more information, please read our
+  - link "Privacy Policy"
+  - text: .
+- button "Accept cookies": I understand
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@/common/fixtures'
+   2 |
+   3 | test('navigating to the Leadership page show all founders', async ({ mainPage }) => {
+   4 |     // Given
+   5 |     await mainPage.goto()
+   6 |     // When
+   7 |     await mainPage.navigateTo(['About Us', 'Leadership'])
+   8 |     // Then
+   9 |     for (const founder of ['Dmitry Balyasny', "Taylor O'Malley", 'Scott Schroeder']) {
+  10 |         await expect(mainPage.$foundersSection).toContainText(founder)
+  11 |     }
+  12 | })
+  13 |
+  14 | const menuItems = {
+  15 |     'About Us': ['Leadership', 'Locations'],
+  16 |     'How We Work': ['Investment', 'Risk', 'Technology', 'Business Infrastructure'],
+  17 |     'Our Strategies': [],
+  18 |     'News & Insights': [],
+  19 |     Careers: ['Internships', 'Early Career', 'Talent Development', 'Open Roles'],
+  20 | }
+  21 | const textOnPage = {
+  22 |     'About Us': '^About Us',
+  23 |     Leadership: '^Leadership',
+  24 |     Locations: '^Locations',
+  25 |     'How We Work': '^How We Work',
+  26 |     Investment: '^Investment',
+  27 |     Risk: '^Risk',
+  28 |     Technology: '^Technology',
+  29 |     'Business Infrastructure': '^Business Infrastructure',
+  30 |     'Our Strategies': '^Investment Strategies',
+  31 |     'News & Insights': '^News',
+  32 |     Careers: '^Careers',
+  33 |     Internships: '^Internships',
+  34 |     'Early Career': '^Early Career',
+  35 |     'Talent Development': '^Talent Development',
+  36 |     'Open Roles': 'Open RolesExplore Opportunities',
+  37 | }
+  38 | test('top navigation menu can redirect to all pages', async ({ mainPage }) => {
+  39 |     /*   This test is to check the top navigation menu items and sub-menu menu items
+  40 |      *   The test will navigate to each menu item and sub-menu menuItems
+  41 |      *   and check if the page is loaded correctly
+  42 |      *
+  43 |      *   The test will check the following menu items:
+  44 |      *   - About Us
+  45 |      *   - How We Work
+  46 |      *   - Our Strategies
+  47 |      *   - News & Insights
+  48 |      *   - Careers
+  49 |      *   - Leadership
+  50 |      *   - Locations
+  51 |      *   - Investment
+  52 |      *   - Risk
+  53 |      *   - Technology
+  54 |      *   - Business Infrastructure
+  55 |      *   - Internships
+  56 |      *   - Early Careers
+  57 |      *   - Talent Development
+  58 |      *   - Open Roles (link to new tab in different domain)
+  59 |      */
+  60 |     // Given
+  61 |     await mainPage.goto()
+  62 |     for (const menuItem of Object.keys(menuItems)) {
+  63 |         await test.step(`navigating to ${menuItem} pages`, async () => {
+  64 |             // When
+  65 |             await mainPage.navigateTo([menuItem])
+  66 |             // Then
+  67 |             await expect(mainPage.$mainContent).toHaveText(RegExp(`${textOnPage[menuItem]}`, 'i'))
+  68 |             for (const subMenuItem of menuItems[menuItem]) {
+  69 |                 // When
+  70 |                 await mainPage.navigateTo([menuItem, subMenuItem])
+  71 |                 // Then
+> 72 |                 await expect(mainPage.$mainContent).toHaveText(RegExp(`${textOnPage[subMenuItem]}`, 'i'))
+     |                                                     ^ Error: expect(locator).toHaveText(expected)
+  73 |             }
+  74 |         })
+  75 |     }
+  76 |     const firstMenuItem = Object.keys(menuItems).at(0)
+  77 |     await mainPage.navigateTo([firstMenuItem])
+  78 |     await expect(mainPage.$mainContent).toHaveText(RegExp(`${textOnPage[firstMenuItem]}`, 'i'))
+  79 | })
+  80 |
+```
