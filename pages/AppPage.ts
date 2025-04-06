@@ -27,6 +27,8 @@ export class AppPage {
     }
 
     async navigateTo(menuPath: string[]) {
+        //  Move the mouse to workaround the hover issue on Firefox
+        await this.page.mouse.move(0, 0)
         for (const menuName of menuPath) {
             await this.$navigation.getByRole('link', { name: menuName }).hover()
         }

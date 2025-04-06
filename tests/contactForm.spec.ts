@@ -28,7 +28,7 @@ const invalidEmailErrorText = {
     firefox: 'Please enter an email address.',
     webkit: 'Enter an email address',
 }
-test('submitting the Contact Form with invalidEmail show validation message', async ({ contactUsPage, browser }) => {
+test('submitting the Contact Form with invalid email show validation message', async ({ contactUsPage, browser }) => {
     // Given
     await contactUsPage.goto()
     // When
