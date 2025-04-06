@@ -1,0 +1,242 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: submitting the Contact Form with invalid phone number show validation message
+- Location: /home/runner/work/bam/bam/tests/contactForm.spec.ts:50:5
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toBeFocused()
+
+Locator: getByLabel('Phone Number')
+Expected: focused
+Received: inactive
+Call log:
+  - expect.toBeFocused with timeout 5000ms
+  - waiting for getByLabel('Phone Number')
+    9 × locator resolved to <input type="string" name="phone_number" data-headlessui-state="" placeholder="+1234567890" value="invalid-phone-number" id="headlessui-control-:R1b99uura:" aria-labelledby="headlessui-label-:R1db99uura:" class="block w-full py-4 px-6 bg-gray-150 font-medium placeholder:text-gray-600 border border-transparent bg-gray-150 placeholder:text-red-600 !border-red-600"/>
+      - unexpected value "inactive"
+
+    at /home/runner/work/bam/bam/tests/contactForm.spec.ts:72:46
+```
+
+# Page snapshot
+
+```yaml
+- banner:
+  - navigation "Header":
+    - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+      - text: Balyasny Asset Management Homepage
+      - img "Balyasny Asset Management Logo"
+    - link "About Us"
+    - button "About Us"
+    - link "How We Work"
+    - button "How We Work"
+    - link "Our Strategies"
+    - link "News & Insights"
+    - link "Careers"
+    - button "Careers"
+    - link "Investor Login"
+- main:
+  - text: Contact Us
+  - heading "Get in touch" [level=2]
+  - text: First Name*
+  - textbox "First Name*"
+  - paragraph: This field is required
+  - text: Last Name*
+  - textbox "Last Name*": Hoeger
+  - text: E-mail Address*
+  - textbox "E-mail Address*": Daniela2@gmail.com
+  - text: Company/School Name
+  - textbox "Company/School Name": Rosenbaum - DuBuque
+  - text: Phone Number
+  - textbox "Phone Number": invalid-phone-number
+  - paragraph: Invalid phone number
+  - text: Topic
+  - combobox "Topic":
+    - option "Please select a topic" [disabled]
+    - option "General" [selected]
+    - option "Media Requests"
+    - option "Investor Relations"
+    - option "Request a Campus Visit"
+    - option "Employment Verification"
+  - text: Your Message*
+  - textbox "Your Message*": Tersus vitae accusator adicio aliquid denuo virgo. Venia tristis aspicio uberrime supplanto clementia decipio. Reiciendis quo assentator theca veritas censura succedo. Viriliter atavus stultus ager vomer assentator illum conturbo amitto. Arbor tamquam truculenter laborum. Constans cruciamentum demonstro mollitia tum barba cauda antiquus creo. Calco sit tempore decimus. Varietas vaco accusantium adhuc cetera reiciendis spero capio. Sperno trado suus ab optio nulla.
+  - text: This site is protected by reCAPTCHA and the Google
+  - link "Privacy Policy"
+  - text: and
+  - link "Terms of Service"
+  - text: apply.
+  - button "Submit"
+- contentinfo "Footer":
+  - heading "Footer" [level=2]
+  - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+    - text: Balyasny Asset Management Homepage
+    - img "Balyasny Asset Management Logo"
+  - link "About Us"
+  - link "Leadership"
+  - link "Locations"
+  - link "How We Work"
+  - link "Investment"
+  - link "Risk"
+  - link "Technology"
+  - link "Business Infrastructure"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - link "Internships"
+  - link "Early Career"
+  - link "Talent Development"
+  - link "Open Roles"
+  - link "Contact Us"
+  - heading "Legal documents" [level=3]
+  - link "User Agreement"
+  - link "Privacy Policy"
+  - link "U.K. Regulatory Disclosures"
+  - link "Fraudulent Schemes Warning"
+  - heading "Social Media Links" [level=3]
+  - link "Instagram Logo":
+    - img "Instagram Logo"
+  - link "YouTube Logo":
+    - img "YouTube Logo"
+  - link "LinkedIn Logo":
+    - img "LinkedIn Logo"
+  - paragraph: © 2025 Balyasny Asset Management L.P. All rights reserved.
+- paragraph: Our website uses cookies to give you the best browsing experience. By using this website, you consent to our use of cookies.
+- paragraph:
+  - text: For more information, please read our
+  - link "Privacy Policy"
+  - text: .
+- button "Accept cookies": I understand
+- alert
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@/common/fixtures'
+   2 | import { ContactForm } from '@/pages/ContactUsPage'
+   3 | import { getFieldSourround, getFieldValidationMessage } from '@/common/helpers'
+   4 | import { faker } from '@faker-js/faker'
+   5 | import { Config } from '@/config'
+   6 |
+   7 | test('submitting the Contact Form with empty required fields show validation message', async ({ contactUsPage }) => {
+   8 |     // Given
+   9 |     await contactUsPage.goto()
+   10 |     // When
+   11 |     const testData: ContactForm = {
+   12 |         firstName: '',
+   13 |         lastName: '',
+   14 |         email: '',
+   15 |         message: '',
+   16 |     }
+   17 |     await contactUsPage.fillForm(testData)
+   18 |     await contactUsPage.submitContactForm()
+   19 |     // Then
+   20 |     for (const required of ['$firstName', '$lastName', '$email', '$message']) {
+   21 |         await expect(getFieldSourround(contactUsPage[required])).toHaveText(/This field is required/)
+   22 |     }
+   23 | })
+   24 |
+   25 | const invalidEmail = 'invalid-email'
+   26 | const invalidEmailErrorText = {
+   27 |     chromium: `Please include an '@' in the email address. '${invalidEmail}' is missing an '@'.`,
+   28 |     firefox: 'Please enter an email address.',
+   29 |     webkit: 'Enter an email address',
+   30 | }
+   31 | test('submitting the Contact Form with invalid email show validation message', async ({ contactUsPage, browser }) => {
+   32 |     // Given
+   33 |     await contactUsPage.goto()
+   34 |     // When
+   35 |     const testData: ContactForm = {
+   36 |         firstName: faker.person.firstName(),
+   37 |         lastName: faker.person.lastName(),
+   38 |         email: invalidEmail,
+   39 |         message: faker.lorem.paragraphs(),
+   40 |     }
+   41 |     await contactUsPage.fillForm(testData)
+   42 |     await contactUsPage.submitContactForm()
+   43 |     // Then
+   44 |     await expect(contactUsPage.$email).toBeFocused()
+   45 |     expect(await getFieldValidationMessage(contactUsPage.$email)).toBe(
+   46 |         invalidEmailErrorText[browser.browserType().name()],
+   47 |     )
+   48 | })
+   49 |
+   50 | test('submitting the Contact Form with invalid phone number show validation message', async ({ contactUsPage }) => {
+   51 |     // Given
+   52 |     await contactUsPage.goto()
+   53 |     // When
+   54 |     const testData: ContactForm = {
+   55 |         firstName: faker.person.firstName(),
+   56 |         lastName: faker.person.lastName(),
+   57 |         email: faker.internet.email(),
+   58 |         companySchoolName: faker.company.name(),
+   59 |         phoneNumber: 'invalid-phone-number',
+   60 |         topic: faker.helpers.arrayElement([
+   61 |             'General',
+   62 |             'Media Requests',
+   63 |             'Investor Relations',
+   64 |             'Request a Campus Visit',
+   65 |             'Employment Verification',
+   66 |         ]),
+   67 |         message: faker.lorem.paragraphs(),
+   68 |     }
+   69 |     await contactUsPage.fillForm(testData)
+   70 |     await contactUsPage.submitContactForm()
+   71 |     // Then
+>  72 |     await expect(contactUsPage.$phoneNumber).toBeFocused()
+      |                                              ^ Error: Timed out 5000ms waiting for expect(locator).toBeFocused()
+   73 |     await expect(getFieldSourround(contactUsPage.$phoneNumber)).toHaveText(/Invalid phone number/)
+   74 | })
+   75 |
+   76 | test('submitting contact form by automation with valida data is blocked by reCAPTCHA', async ({ contactUsPage }) => {
+   77 |     /*
+   78 |      * This test is to check if the reCAPTCHA is blocking the form submission when the form is filled by automation
+   79 |      * The test will fill the form with valid data and submit it.
+   80 |      * The test will check if the reCAPTCHA is blocking the form submission by checking the response of the form submission.
+   81 |      * The test will check if the error message is shown on the page.
+   82 |      *
+   83 |      * THE TEST WILL FAIL IF THE reCAPTCHA IS NOT BLOCKING THE FORM SUBMISSION (hapens from time to time on Firefox and Webkit)
+   84 |      */
+   85 |     // Given
+   86 |     await contactUsPage.goto()
+   87 |     // Wait for the page to load completely along with the reCAPTCHA
+   88 |     // eslint-disable-next-line playwright/no-networkidle
+   89 |     await contactUsPage.page.waitForLoadState('networkidle')
+   90 |     // When
+   91 |     const testData: ContactForm = {
+   92 |         firstName: faker.person.firstName(),
+   93 |         lastName: faker.person.lastName(),
+   94 |         email: faker.internet.email(),
+   95 |         companySchoolName: faker.company.name(),
+   96 |         phoneNumber: faker.phone.number({ style: 'international' }),
+   97 |         topic: faker.helpers.arrayElement([
+   98 |             'General',
+   99 |             'Media Requests',
+  100 |             'Investor Relations',
+  101 |             'Request a Campus Visit',
+  102 |             'Employment Verification',
+  103 |         ]),
+  104 |         message: faker.lorem.paragraphs(),
+  105 |     }
+  106 |     await contactUsPage.fillForm(testData)
+  107 |     const responsePromise = contactUsPage.page.waitForResponse(
+  108 |         (response) => response.url().includes(Config.API_URL) && response.request().method() === 'POST',
+  109 |     )
+  110 |     await contactUsPage.submitContactForm()
+  111 |     const response = await responsePromise
+  112 |     // Then
+  113 |     expect(await response.text()).toMatch(/Failed reCAPTCHA verification/)
+  114 |     await expect(contactUsPage.$mainContent).toContainText(
+  115 |         'There was an error submitting the form. Please try again or refresh the page.',
+  116 |     )
+  117 | })
+  118 |
+```

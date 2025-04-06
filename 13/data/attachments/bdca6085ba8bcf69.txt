@@ -1,0 +1,222 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: top navigation menu can redirect to all pages
+- Location: /home/runner/work/bam/bam/tests/navigation.spec.ts:38:5
+
+# Error details
+
+```
+Error: Timed out 5000ms waiting for expect(locator).toHaveText(expected)
+
+Locator: getByRole('main')
+Expected pattern: /^Risk/i
+Received string:  "InvestmentAn adaptive platform, made for business buildersA dynamic framework where our specialist investment teams constantly research the best risk/reward opportunities.Our ApproachResources for risk takersThe Balyasny platform provides teams with the tools, technology, and data to grow and succeed. Developing investing talentFrom junior analysts to leading portfolio managers, we develop and support top talent.Access to shared insightsFirmwide resources, like our Applied AI specialists, put insights into the hands of our Investment Teams.Team Perspectives“With robust infrastructure and data capabilities, we can optimize portfolio construction and maximize investment opportunities. ”Caesar YuanPartner & Portfolio Manager“When we hire it’s not just a case of bringing in the right set of skills. Every team member needs to feel a sense of ownership in our process.”Max ZaraiskyPartner & Portfolio Manager“With robust infrastructure and data capabilities, we can optimize portfolio construction and maximize investment opportunities.”Caesar YuanPartner & Portfolio ManagerConnections that impact resultsOur Risk Team works hand-in-hand with our portfolio managers, analysts, and Investment Committee to model future risk scenarios, create hedging vehicles, and monitor our global risk frameworks.Learn more about RiskOur Technology Team builds custom solutions to equip our Investment Teams with the real-time data and proprietary quantitative research to make better decisions.  Learn more about TechnologyOur Business Infrastructure Teams help build and scale our business, enabling our Investment Teams to thrive.Learn more about Business InfrastructureRiskTechnologyBusiness InfrastructureOur Risk Team works hand-in-hand with our portfolio managers, analysts, and Investment Committee to model future risk scenarios, create hedging vehicles, and monitor our global risk frameworks.Learn more about RiskCollaborating across strategies and geographiesSteven Goldberg and Nilsson Kocher, global co-heads of our Fixed Income & Macro business, discuss how the firm encourages and values cross-team collaboration across strategies and geographies. Read the storyTalent DevelopmentAdvance your careerOur aim is to recruit and develop world-class talent to empower their performance. Talent DevelopmentAdvance your careerEarly CareerLaunch your careerOur early career opportunities build skills and knowledge. Internships and full-time rotations expose our newer team members to all aspects of our business.Early CareerLaunch your careerAbout UsExplore our philosophyOur mission is to generate uncorrelated alpha for our investors through diversified strategies and strong risk management.About UsExplore our philosophyRisk Disclosure: An investment in the funds managed by BAM is speculative and involves a high degree of risk, including the risk that these funds could lose value (a risk of loss). BAM will employ certain trading techniques, such as short selling and the use of leverage, which may increase the risk of investment loss."
+Call log:
+  - expect.toHaveText with timeout 5000ms
+  - waiting for getByRole('main')
+    9 × locator resolved to <main class="flex flex-col flex-1 w-full overflow-hidden mt-12 sm:mt-16 md:mt-24 lg:mt-32">…</main>
+      - unexpected value "InvestmentAn adaptive platform, made for business buildersA dynamic framework where our specialist investment teams constantly research the best risk/reward opportunities.Our ApproachResources for risk takersThe Balyasny platform provides teams with the tools, technology, and data to grow and succeed. Developing investing talentFrom junior analysts to leading portfolio managers, we develop and support top talent.Access to shared insightsFirmwide resources, like our Applied AI specialists, put insights into the hands of our Investment Teams.Team Perspectives“With robust infrastructure and data capabilities, we can optimize portfolio construction and maximize investment opportunities. ”Caesar YuanPartner & Portfolio Manager“When we hire it’s not just a case of bringing in the right set of skills. Every team member needs to feel a sense of ownership in our process.”Max ZaraiskyPartner & Portfolio Manager“With robust infrastructure and data capabilities, we can optimize portfolio construction and maximize investment opportunities.”Caesar YuanPartner & Portfolio ManagerConnections that impact resultsOur Risk Team works hand-in-hand with our portfolio managers, analysts, and Investment Committee to model future risk scenarios, create hedging vehicles, and monitor our global risk frameworks.Learn more about RiskOur Technology Team builds custom solutions to equip our Investment Teams with the real-time data and proprietary quantitative research to make better decisions.  Learn more about TechnologyOur Business Infrastructure Teams help build and scale our business, enabling our Investment Teams to thrive.Learn more about Business InfrastructureRiskTechnologyBusiness InfrastructureOur Risk Team works hand-in-hand with our portfolio managers, analysts, and Investment Committee to model future risk scenarios, create hedging vehicles, and monitor our global risk frameworks.Learn more about RiskCollaborating across strategies and geographiesSteven Goldberg and Nilsson Kocher, global co-heads of our Fixed Income & Macro business, discuss how the firm encourages and values cross-team collaboration across strategies and geographies. Read the storyTalent DevelopmentAdvance your careerOur aim is to recruit and develop world-class talent to empower their performance. Talent DevelopmentAdvance your careerEarly CareerLaunch your careerOur early career opportunities build skills and knowledge. Internships and full-time rotations expose our newer team members to all aspects of our business.Early CareerLaunch your careerAbout UsExplore our philosophyOur mission is to generate uncorrelated alpha for our investors through diversified strategies and strong risk management.About UsExplore our philosophyRisk Disclosure: An investment in the funds managed by BAM is speculative and involves a high degree of risk, including the risk that these funds could lose value (a risk of loss). BAM will employ certain trading techniques, such as short selling and the use of leverage, which may increase the risk of investment loss."
+
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:73:53
+    at /home/runner/work/bam/bam/tests/navigation.spec.ts:64:9
+```
+
+# Page snapshot
+
+```yaml
+- alert: Investment | Balyasny Asset Management
+- banner:
+  - navigation "Header":
+    - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+      - text: Balyasny Asset Management Homepage
+      - img "Balyasny Asset Management Logo"
+    - link "About Us"
+    - button "About Us"
+    - link "How We Work"
+    - button "How We Work" [expanded]
+    - link "Investment"
+    - link "Risk"
+    - link "Technology"
+    - link "Business Infrastructure"
+    - link "Our Strategies"
+    - link "News & Insights"
+    - link "Careers"
+    - button "Careers"
+    - link "Investor Login"
+- main:
+  - paragraph: Investment
+  - heading "An adaptive platform, made for business builders" [level=2]
+  - paragraph: A dynamic framework where our specialist investment teams constantly research the best risk/reward opportunities.
+  - img "Investing hero image illustration"
+  - heading "Our Approach" [level=2]
+  - text: Resources for risk takers
+  - paragraph: The Balyasny platform provides teams with the tools, technology, and data to grow and succeed.
+  - text: Developing investing talent
+  - paragraph: From junior analysts to leading portfolio managers, we develop and support top talent.
+  - text: Access to shared insights
+  - paragraph: Firmwide resources, like our Applied AI specialists, put insights into the hands of our Investment Teams.
+  - paragraph: Team Perspectives
+  - paragraph: “With robust infrastructure and data capabilities, we can optimize portfolio construction and maximize investment opportunities. ”
+  - img "Caesar Yuan headshot"
+  - paragraph: Caesar Yuan Partner & Portfolio Manager
+  - paragraph: “When we hire it’s not just a case of bringing in the right set of skills. Every team member needs to feel a sense of ownership in our process.”
+  - img "Max Zaraisky headshot"
+  - paragraph: Max Zaraisky Partner & Portfolio Manager
+  - paragraph: “With robust infrastructure and data capabilities, we can optimize portfolio construction and maximize investment opportunities.”
+  - img "Caesar Yuan headshot"
+  - paragraph: Caesar Yuan Partner & Portfolio Manager
+  - button "Previous Quote"
+  - button "Next Quote"
+  - heading "Connections that impact results" [level=2]
+  - tablist:
+    - tab "Risk" [selected]
+    - tab "Technology"
+    - tab "Business Infrastructure"
+  - tabpanel "Risk":
+    - heading "Our Risk Team works hand-in-hand with our portfolio managers, analysts, and Investment Committee to model future risk scenarios, create hedging vehicles, and monitor our global risk frameworks." [level=2]
+    - link "Learn more about Risk"
+  - heading "Collaborating across strategies and geographies" [level=3]
+  - paragraph: Steven Goldberg and Nilsson Kocher, global co-heads of our Fixed Income & Macro business, discuss how the firm encourages and values cross-team collaboration across strategies and geographies.
+  - link "Read the story"
+  - img "BAMFunds Illustration"
+  - text: Talent Development
+  - link "Advance your career"
+  - text: Early Career
+  - link "Launch your career"
+  - text: About Us
+  - link "Explore our philosophy"
+  - paragraph: "Risk Disclosure: An investment in the funds managed by BAM is speculative and involves a high degree of risk, including the risk that these funds could lose value (a risk of loss). BAM will employ certain trading techniques, such as short selling and the use of leverage, which may increase the risk of investment loss."
+- contentinfo "Footer":
+  - heading "Footer" [level=2]
+  - link "Balyasny Asset Management Homepage Balyasny Asset Management Logo":
+    - text: Balyasny Asset Management Homepage
+    - img "Balyasny Asset Management Logo"
+  - link "About Us"
+  - link "Leadership"
+  - link "Locations"
+  - link "How We Work"
+  - link "Investment"
+  - link "Risk"
+  - link "Technology"
+  - link "Business Infrastructure"
+  - link "Our Strategies"
+  - link "News & Insights"
+  - link "Careers"
+  - link "Internships"
+  - link "Early Career"
+  - link "Talent Development"
+  - link "Open Roles"
+  - link "Contact Us"
+  - heading "Legal documents" [level=3]
+  - link "User Agreement"
+  - link "Privacy Policy"
+  - link "U.K. Regulatory Disclosures"
+  - link "Fraudulent Schemes Warning"
+  - heading "Social Media Links" [level=3]
+  - link "Instagram Logo":
+    - img "Instagram Logo"
+  - link "YouTube Logo":
+    - img "YouTube Logo"
+  - link "LinkedIn Logo":
+    - img "LinkedIn Logo"
+  - paragraph: © 2025 Balyasny Asset Management L.P. All rights reserved.
+- paragraph: Our website uses cookies to give you the best browsing experience. By using this website, you consent to our use of cookies.
+- paragraph:
+  - text: For more information, please read our
+  - link "Privacy Policy"
+  - text: .
+- button "Accept cookies": I understand
+```
+
+# Test source
+
+```ts
+   1 | import { test, expect } from '@/common/fixtures'
+   2 |
+   3 | test('navigating to the Leadership page show all founders', async ({ mainPage }) => {
+   4 |     // Given
+   5 |     await mainPage.goto()
+   6 |     // When
+   7 |     await mainPage.navigateTo(['About Us', 'Leadership'])
+   8 |     // Then
+   9 |     for (const founder of ['Dmitry Balyasny', "Taylor O'Malley", 'Scott Schroeder']) {
+  10 |         await expect(mainPage.$foundersSection).toContainText(founder)
+  11 |     }
+  12 | })
+  13 |
+  14 | const menuItems = {
+  15 |     'About Us': ['Leadership', 'Locations'],
+  16 |     'How We Work': ['Investment', 'Risk', 'Technology', 'Business Infrastructure'],
+  17 |     'Our Strategies': [],
+  18 |     'News & Insights': [],
+  19 |     Careers: ['Internships', 'Early Career', 'Talent Development', 'Open Roles'],
+  20 | }
+  21 | const textOnPage = {
+  22 |     'About Us': '^About Us',
+  23 |     Leadership: '^Leadership',
+  24 |     Locations: '^Locations',
+  25 |     'How We Work': '^How We Work',
+  26 |     Investment: '^Investment',
+  27 |     Risk: '^Risk',
+  28 |     Technology: '^Technology',
+  29 |     'Business Infrastructure': '^Business Infrastructure',
+  30 |     'Our Strategies': '^Investment Strategies',
+  31 |     'News & Insights': '^News',
+  32 |     Careers: '^Careers',
+  33 |     Internships: '^Internships',
+  34 |     'Early Career': '^Early Career',
+  35 |     'Talent Development': '^Talent Development',
+  36 |     'Open Roles': 'Open RolesExplore Opportunities',
+  37 | }
+  38 | test('top navigation menu can redirect to all pages', async ({ mainPage }) => {
+  39 |     test.setTimeout(60_000)
+  40 |     /*   This test is to check the top navigation menu items and sub-menu menu items
+  41 |      *   The test will navigate to each menu item and sub-menu menuItems
+  42 |      *   and check if the page is loaded correctly
+  43 |      *
+  44 |      *   The test will check the following menu items:
+  45 |      *   - About Us
+  46 |      *   - How We Work
+  47 |      *   - Our Strategies
+  48 |      *   - News & Insights
+  49 |      *   - Careers
+  50 |      *   - Leadership
+  51 |      *   - Locations
+  52 |      *   - Investment
+  53 |      *   - Risk
+  54 |      *   - Technology
+  55 |      *   - Business Infrastructure
+  56 |      *   - Internships
+  57 |      *   - Early Careers
+  58 |      *   - Talent Development
+  59 |      *   - Open Roles (link to new tab in different domain)
+  60 |      */
+  61 |     // Given
+  62 |     await mainPage.goto()
+  63 |     for (const menuItem of Object.keys(menuItems)) {
+  64 |         await test.step(`navigating to ${menuItem} pages`, async () => {
+  65 |             // When
+  66 |             await mainPage.navigateTo([menuItem])
+  67 |             // Then
+  68 |             await expect(mainPage.$mainContent).toHaveText(RegExp(`${textOnPage[menuItem]}`, 'i'))
+  69 |             for (const subMenuItem of menuItems[menuItem]) {
+  70 |                 // When
+  71 |                 await mainPage.navigateTo([menuItem, subMenuItem])
+  72 |                 // Then
+> 73 |                 await expect(mainPage.$mainContent).toHaveText(RegExp(`${textOnPage[subMenuItem]}`, 'i'))
+     |                                                     ^ Error: Timed out 5000ms waiting for expect(locator).toHaveText(expected)
+  74 |             }
+  75 |         })
+  76 |     }
+  77 |     const firstMenuItem = Object.keys(menuItems).at(0)
+  78 |     await mainPage.navigateTo([firstMenuItem])
+  79 |     await expect(mainPage.$mainContent).toHaveText(RegExp(`${textOnPage[firstMenuItem]}`, 'i'))
+  80 | })
+  81 |
+```
